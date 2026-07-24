@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Trading Bot — Live Dashboard</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📈</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #07090F;
+      --surface:   #0D1420;
+      --surface2:  #111C2E;
+      --border:    #1A2B44;
+      --border2:   #243650;
+      --text:      #DDE6F6;
+      --text2:     #6B87AA;
+      --text3:     #344D6A;
+      --green:     #22C55E;
+      --green-dim: #14532D;
+      --red:       #EF4444;
+      --red-dim:   #4C1414;
+      --blue:      #3B82F6;
+      --blue-dim:  #1E3A5F;
+      --yellow:    #F59E0B;
+      --mono:      'JetBrains Mono', monospace;
+      --sans:      'Inter', system-ui, sans-serif;
+    }
+
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+
+    /* ── Top bar ── */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 28px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      gap: 12px;
+    }
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .bot-name {
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: 0.03em;
+      color: var(--text);
+    }
+    .live-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(34,197,94,0.12);
+      border: 1px solid rgba(34,197,94,0.3);
+      border-radius: 20px;
+      padding: 3px 10px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--green);
+      letter-spacing: 0.08em;
+    }
+    .live-dot {
+      width: 7px; height: 7px;
+      background: var(--green);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    .offline-badge {
+      display: none;
+      align-items: center;
+      gap: 6px;
+      background: rgba(239,68,68,0.12);
+      border: 1px solid rgba(239,68,68,0.3);
+      border-radius: 20px;
+      padding: 3px 10px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--red);
+      letter-spacing: 0.08em;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(34,197,94,0.4); }
+      50%       { opacity: 0.7; box-shadow: 0 0 0 4px rgba(34,197,94,0); }
+    }
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      font-size: 12px;
+      color: var(--text2);
+    }
+    .refresh-countdown {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text3);
+    }
+    #last-updated-ts {
+      font-size: 11px;
+      color: var(--text3);
+    }
+
+    /* ── Layout ── */
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 28px 24px;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    @media (max-width: 700px) { .hero { grid-template-columns: 1fr; } }
+
+    .hero-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px 28px;
+    }
+    .hero-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      color: var(--text2);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .hero-value {
+      font-family: var(--mono);
+      font-size: 42px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+    .hero-sub {
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--text2);
+    }
+    .hero-sub .up   { color: var(--green); font-weight: 600; }
+    .hero-sub .down { color: var(--red);   font-weight: 600; }
+
+    /* ── Stat row ── */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    @media (max-width: 900px) { .stats-row { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 500px) { .stats-row { grid-template-columns: 1fr; } }
+
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 20px;
+    }
+    .stat-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text2);
+      margin-bottom: 8px;
+    }
+    .stat-value {
+      font-family: var(--mono);
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text);
+      font-variant-numeric: tabular-nums;
+    }
+    .stat-sub {
+      font-size: 12px;
+      color: var(--text2);
+      margin-top: 4px;
+    }
+    .positive { color: var(--green); }
+    .negative { color: var(--red); }
+    .neutral  { color: var(--blue); }
+
+    /* ── Charts ── */
+    .charts-row {
+      display: grid;
+      grid-template-columns: 3fr 2fr;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    @media (max-width: 900px) { .charts-row { grid-template-columns: 1fr; } }
+
+    .chart-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 22px 24px;
+    }
+    .chart-title {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text2);
+      margin-bottom: 18px;
+    }
+    .chart-wrap {
+      position: relative;
+      height: 220px;
+    }
+
+    /* ── Open positions ── */
+    .section-title {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text2);
+      margin-bottom: 14px;
+    }
+    .section-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 22px 24px;
+      margin-bottom: 20px;
+    }
+    .no-positions {
+      text-align: center;
+      padding: 28px;
+      color: var(--text3);
+      font-size: 14px;
+    }
+    .positions-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px;
+    }
+    .pos-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+    }
+    .pos-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .pos-symbol {
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--text);
+    }
+    .pos-dir {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+    .pos-dir.buy  { background: var(--green-dim); color: var(--green); }
+    .pos-dir.sell { background: var(--red-dim);   color: var(--red); }
+    .pos-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      margin-bottom: 4px;
+    }
+    .pos-key  { color: var(--text2); }
+    .pos-val  { font-family: var(--mono); color: var(--text); font-size: 11px; }
+
+    /* ── Trades table ── */
+    .table-wrap { overflow-x: auto; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    th {
+      text-align: left;
+      padding: 10px 14px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text2);
+      border-bottom: 1px solid var(--border);
+    }
+    td {
+      padding: 11px 14px;
+      border-bottom: 1px solid rgba(26,43,68,0.5);
+      font-variant-numeric: tabular-nums;
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: rgba(255,255,255,0.02); }
+    .dir-buy  { color: var(--green); font-weight: 600; font-size: 11px; }
+    .dir-sell { color: var(--red);   font-weight: 600; font-size: 11px; }
+    .mono     { font-family: var(--mono); font-size: 12px; }
+    .pnl-pos  { color: var(--green); font-weight: 600; font-family: var(--mono); }
+    .pnl-neg  { color: var(--red);   font-weight: 600; font-family: var(--mono); }
+
+    /* ── Footer ── */
+    .footer {
+      text-align: center;
+      padding: 28px 24px;
+      font-size: 12px;
+      color: var(--text3);
+      border-top: 1px solid var(--border);
+    }
+    .footer a { color: var(--blue); text-decoration: none; }
+
+    /* ── Skeleton / loading ── */
+    .skeleton {
+      background: linear-gradient(90deg, var(--surface2) 25%, var(--border) 50%, var(--surface2) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      border-radius: 6px;
+      display: inline-block;
+      width: 120px; height: 1em;
+    }
+    @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+    /* ── Daily history table ── */
+    .day-row.positive-day td:nth-child(2) { color: var(--green); }
+    .day-row.negative-day td:nth-child(2) { color: var(--red); }
+  </style>
+</head>
+<body>
+
+<!-- ── Top bar ── -->
+<nav class="topbar">
+  <div class="topbar-left">
+    <span class="bot-name">⚡ AI Trading Bot</span>
+    <div class="live-badge" id="live-badge">
+      <span class="live-dot"></span> LIVE
+    </div>
+    <div class="offline-badge" id="offline-badge">
+      ● OFFLINE
+    </div>
+  </div>
+  <div class="topbar-right">
+    <span id="last-updated-ts">Loading…</span>
+    <span class="refresh-countdown">Auto-refresh: <span id="countdown">60</span>s</span>
+  </div>
+</nav>
+
+<main class="container">
+
+  <!-- ── Hero row ── -->
+  <section class="hero">
+    <div class="hero-card">
+      <div class="hero-label">Account Balance</div>
+      <div class="hero-value" id="h-balance">$—</div>
+      <div class="hero-sub">
+        Equity: <span id="h-equity" class="mono">—</span> &nbsp;|&nbsp;
+        Open P/L: <span id="h-open-pl">—</span>
+      </div>
+    </div>
+    <div class="hero-card">
+      <div class="hero-label">Total P/L Since Jul 15</div>
+      <div class="hero-value positive" id="h-total-pnl">+$—</div>
+      <div class="hero-sub">
+        Started at <span id="h-start-bal">—</span> on <span id="h-start-date">—</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Stats row ── -->
+  <section class="stats-row">
+    <div class="stat-card">
+      <div class="stat-label">Today P/L</div>
+      <div class="stat-value" id="s-today-pnl">—</div>
+      <div class="stat-sub" id="s-today-sub">0 trades today</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Win Rate</div>
+      <div class="stat-value neutral" id="s-winrate">—</div>
+      <div class="stat-sub" id="s-wr-sub">all time</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Total Trades</div>
+      <div class="stat-value" id="s-total-trades">—</div>
+      <div class="stat-sub" id="s-wl-sub">— W / — L</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Open Positions</div>
+      <div class="stat-value neutral" id="s-open-pos">—</div>
+      <div class="stat-sub" id="s-open-sub">—</div>
+    </div>
+  </section>
+
+  <!-- ── Charts ── -->
+  <section class="charts-row">
+    <div class="chart-card">
+      <div class="chart-title">Equity Curve</div>
+      <div class="chart-wrap">
+        <canvas id="equity-chart"></canvas>
+      </div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">Daily P/L</div>
+      <div class="chart-wrap">
+        <canvas id="daily-chart"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Open positions ── -->
+  <section class="section-card">
+    <div class="section-title">Open Positions</div>
+    <div id="positions-content">
+      <div class="no-positions">Loading…</div>
+    </div>
+  </section>
+
+  <!-- ── Recent trades ── -->
+  <section class="section-card">
+    <div class="section-title">Recent Trades</div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Time</th>
+            <th>Symbol</th>
+            <th>Dir</th>
+            <th>Vol</th>
+            <th>P/L (USD)</th>
+          </tr>
+        </thead>
+        <tbody id="trades-tbody">
+          <tr><td colspan="5" style="text-align:center;color:var(--text3)">Loading…</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ── Daily history ── -->
+  <section class="section-card">
+    <div class="section-title">Daily Performance History</div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Net P/L</th>
+            <th>Trades</th>
+            <th>W / L</th>
+            <th>Win %</th>
+            <th>Balance</th>
+          </tr>
+        </thead>
+        <tbody id="daily-tbody">
+          <tr><td colspan="6" style="text-align:center;color:var(--text3)">Loading…</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  AI Trading Bot &nbsp;·&nbsp; XAUUSD / DJI30 &nbsp;·&nbsp;
+  Powered by MetaTrader 5 + RandomForest ML &nbsp;·&nbsp;
+  Data refreshes every ~2 minutes &nbsp;·&nbsp;
+  <a href="https://github.com" target="_blank">GitHub</a>
+</footer>
+
+<script>
+  // ── Config ──
+  const DATA_URL = 'data/live_stats.json';
+  const REFRESH_INTERVAL = 60;  // seconds between full refresh
+  const OFFLINE_THRESHOLD_MIN = 10; // minutes before showing "OFFLINE"
+
+  // ── Chart instances ──
+  let equityChart = null;
+  let dailyChart  = null;
+
+  // ── Helpers ──
+  const $ = id => document.getElementById(id);
+  const fmt = n => n == null ? '—' : (n >= 0 ? '+' : '') + '$' + Math.abs(n).toFixed(2);
+  const fmtBal = n => n == null ? '—' : '$' + n.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+  const fmtPct = n => n == null ? '—' : n.toFixed(1) + '%';
+
+  function setEl(id, html)  { const el = $(id); if (el) el.innerHTML = html; }
+  function setCls(id, cls)  { const el = $(id); if (el) { el.className = el.className.replace(/positive|negative|neutral/g,'').trim() + ' ' + cls; } }
+
+  // ── Fetch + update ──
+  async function fetchStats() {
+    try {
+      const r = await fetch(DATA_URL + '?t=' + Date.now());
+      if (!r.ok) throw new Error(r.status);
+      return await r.json();
+    } catch(e) {
+      console.warn('Could not fetch stats:', e);
+      return null;
+    }
+  }
+
+  function updateStatus(stats) {
+    if (!stats) { showOffline(); return; }
+    const ts   = new Date(stats.last_updated.replace(' ', 'T'));
+    const diff = (Date.now() - ts) / 60000;  // minutes ago
+    const ago  = diff < 1 ? 'just now' : diff < 60 ? `${Math.floor(diff)}m ago` : `${Math.floor(diff/60)}h ago`;
+    setEl('last-updated-ts', `Updated ${ago}`);
+    if (diff > OFFLINE_THRESHOLD_MIN || stats.bot_status !== 'running') {
+      showOffline();
+    } else {
+      showLive();
+    }
+  }
+
+  function showLive() {
+    $('live-badge').style.display    = 'flex';
+    $('offline-badge').style.display = 'none';
+  }
+  function showOffline() {
+    $('live-badge').style.display    = 'none';
+    $('offline-badge').style.display = 'flex';
+  }
+
+  function updateHero(stats) {
+    const acc = stats.account || {};
+    setEl('h-balance', fmtBal(acc.balance));
+
+    const equity = acc.equity;
+    setEl('h-equity', fmtBal(equity));
+
+    const opl = acc.open_pl;
+    const oplHtml = opl == null ? '—'
+      : `<span class="${opl >= 0 ? 'positive' : 'negative'}">${fmt(opl)}</span>`;
+    setEl('h-open-pl', oplHtml);
+
+    const tot = stats.total || {};
+    const totPnl = tot.pnl;
+    setEl('h-total-pnl', fmt(totPnl));
+    $('h-total-pnl').className = 'hero-value ' + (totPnl >= 0 ? 'positive' : 'negative');
+    setEl('h-start-bal', fmtBal(tot.start_balance));
+    setEl('h-start-date', tot.start_date || '—');
+  }
+
+  function updateStats(stats) {
+    const today = stats.today || {};
+    const tot   = stats.total || {};
+    const open  = stats.open_positions || [];
+
+    // Today P/L
+    const tp = today.pnl;
+    setEl('s-today-pnl', tp == null ? '—' : `<span class="${tp >= 0 ? 'positive' : 'negative'}">${fmt(tp)}</span>`);
+    setEl('s-today-sub', `${today.trades || 0} trades — ${today.wins || 0}W ${today.losses || 0}L`);
+
+    // Win rate
+    const wr = tot.win_rate;
+    setEl('s-winrate', fmtPct(wr));
+    setEl('s-wr-sub', `${tot.wins || 0} wins / ${tot.losses || 0} losses (all time)`);
+
+    // Total trades
+    setEl('s-total-trades', tot.trades || '—');
+    setEl('s-wl-sub', `${tot.wins || 0} W / ${tot.losses || 0} L`);
+
+    // Open positions
+    setEl('s-open-pos', open.length);
+    const totalOpenPl = open.reduce((s, p) => s + (p.profit || 0), 0);
+    setEl('s-open-sub', open.length
+      ? `Float P/L: <span class="${totalOpenPl >= 0 ? 'positive' : 'negative'}">${fmt(totalOpenPl)}</span>`
+      : 'No open trades');
+  }
+
+  function updatePositions(stats) {
+    const open = stats.open_positions || [];
+    const el   = $('positions-content');
+    if (!open.length) {
+      el.innerHTML = '<div class="no-positions">No open positions</div>';
+      return;
+    }
+    el.innerHTML = `<div class="positions-grid">${open.map(p => {
+      const dir   = p.direction === 'BUY' ? 'buy' : 'sell';
+      const plCls = p.profit >= 0 ? 'positive' : 'negative';
+      return `<div class="pos-card">
+        <div class="pos-header">
+          <span class="pos-symbol">${p.symbol}</span>
+          <span class="pos-dir ${dir}">${p.direction}</span>
+        </div>
+        <div class="pos-row"><span class="pos-key">Entry</span><span class="pos-val">${(p.entry||0).toFixed(2)}</span></div>
+        <div class="pos-row"><span class="pos-key">SL</span><span class="pos-val">${(p.sl||0).toFixed(2)}</span></div>
+        <div class="pos-row"><span class="pos-key">TP</span><span class="pos-val">${(p.tp||0).toFixed(2)}</span></div>
+        <div class="pos-row"><span class="pos-key">Volume</span><span class="pos-val">${p.volume||0}</span></div>
+        <div class="pos-row">
+          <span class="pos-key">Float P/L</span>
+          <span class="pos-val ${plCls}">${fmt(p.profit)}</span>
+        </div>
+      </div>`;
+    }).join('')}</div>`;
+  }
+
+  function updateTradesTable(stats) {
+    const trades = stats.recent_trades || [];
+    const tbody  = $('trades-tbody');
+    if (!trades.length) {
+      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--text3)">No recent trades</td></tr>';
+      return;
+    }
+    tbody.innerHTML = trades.map(t => {
+      const dirCls = t.direction === 'BUY' ? 'dir-buy' : 'dir-sell';
+      const plCls  = t.profit >= 0 ? 'pnl-pos' : 'pnl-neg';
+      const timeStr = (t.time || '').substring(11, 16) || t.time;
+      return `<tr>
+        <td class="mono">${t.time}</td>
+        <td>${t.symbol}</td>
+        <td class="${dirCls}">${t.direction}</td>
+        <td class="mono">${t.volume}</td>
+        <td class="${plCls}">${fmt(t.profit)}</td>
+      </tr>`;
+    }).join('');
+  }
+
+  function updateDailyTable(stats) {
+    const daily  = [...(stats.daily_history || [])].reverse();
+    const tbody  = $('daily-tbody');
+    if (!daily.length) {
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--text3)">No history</td></tr>';
+      return;
+    }
+    tbody.innerHTML = daily.map(d => {
+      const cls   = d.net >= 0 ? 'positive-day' : 'negative-day';
+      const nlCls = d.net >= 0 ? 'pnl-pos' : 'pnl-neg';
+      const wr    = d.trades > 0 ? (d.wins / d.trades * 100).toFixed(0) : 0;
+      return `<tr class="day-row ${cls}">
+        <td class="mono">${d.date}</td>
+        <td class="${nlCls}">${fmt(d.net)}</td>
+        <td class="mono">${d.trades}</td>
+        <td class="mono">${d.wins}W / ${d.losses}L</td>
+        <td>${wr}%</td>
+        <td class="mono">${fmtBal(d.balance)}</td>
+      </tr>`;
+    }).join('');
+  }
+
+  // ── Charts ──
+  const CHART_DEFAULTS = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: { mode: 'index', intersect: false } },
+    scales: {
+      x: { grid: { color: 'rgba(26,43,68,0.6)', drawBorder: false }, ticks: { color: '#6B87AA', font: { size: 10, family: "'JetBrains Mono'" } } },
+      y: { grid: { color: 'rgba(26,43,68,0.6)', drawBorder: false }, ticks: { color: '#6B87AA', font: { size: 10, family: "'JetBrains Mono'" }, callback: v => '$' + v.toFixed(0) } }
+    },
+    animation: { duration: 600 },
+  };
+
+  function initEquityChart(data) {
+    const ctx = $('equity-chart').getContext('2d');
+    const grad = ctx.createLinearGradient(0, 0, 0, 220);
+    grad.addColorStop(0, 'rgba(59,130,246,0.3)');
+    grad.addColorStop(1, 'rgba(59,130,246,0.0)');
+    const labels = data.map(d => d.date.substring(5));
+    const values = data.map(d => d.balance);
+    equityChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [{
+          data: values,
+          borderColor: '#3B82F6',
+          backgroundColor: grad,
+          borderWidth: 2,
+          pointRadius: 4,
+          pointHoverRadius: 6,
+          pointBackgroundColor: '#3B82F6',
+          fill: true,
+          tension: 0.3,
+        }]
+      },
+      options: {
+        ...CHART_DEFAULTS,
+        plugins: {
+          ...CHART_DEFAULTS.plugins,
+          tooltip: {
+            ...CHART_DEFAULTS.plugins.tooltip,
+            callbacks: {
+              label: ctx => ' Balance: $' + ctx.raw.toFixed(2),
+            }
+          }
+        }
+      }
+    });
+  }
+
+  function initDailyChart(data) {
+    const ctx = $('daily-chart').getContext('2d');
+    const labels = data.map(d => d.date.substring(5));
+    const values = data.map(d => d.net);
+    const colors = values.map(v => v >= 0 ? 'rgba(34,197,94,0.75)' : 'rgba(239,68,68,0.75)');
+    const borders= values.map(v => v >= 0 ? '#22C55E' : '#EF4444');
+    dailyChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [{
+          data: values,
+          backgroundColor: colors,
+          borderColor: borders,
+          borderWidth: 1,
+          borderRadius: 4,
+        }]
+      },
+      options: {
+        ...CHART_DEFAULTS,
+        plugins: {
+          ...CHART_DEFAULTS.plugins,
+          tooltip: {
+            ...CHART_DEFAULTS.plugins.tooltip,
+            callbacks: {
+              label: ctx => ' Net: ' + (ctx.raw >= 0 ? '+' : '') + '$' + ctx.raw.toFixed(2),
+            }
+          }
+        },
+        scales: {
+          ...CHART_DEFAULTS.scales,
+          y: {
+            ...CHART_DEFAULTS.scales.y,
+            ticks: {
+              ...CHART_DEFAULTS.scales.y.ticks,
+              callback: v => (v >= 0 ? '+' : '') + '$' + v.toFixed(0),
+            }
+          }
+        }
+      }
+    });
+  }
+
+  function updateCharts(stats) {
+    const daily = stats.daily_history || [];
+    if (!daily.length) return;
+    if (!equityChart) {
+      initEquityChart(daily);
+      initDailyChart(daily);
+    } else {
+      equityChart.data.labels   = daily.map(d => d.date.substring(5));
+      equityChart.data.datasets[0].data = daily.map(d => d.balance);
+      equityChart.update();
+      dailyChart.data.labels = daily.map(d => d.date.substring(5));
+      dailyChart.data.datasets[0].data = daily.map(d => d.net);
+      dailyChart.data.datasets[0].backgroundColor = daily.map(d => d.net >= 0 ? 'rgba(34,197,94,0.75)' : 'rgba(239,68,68,0.75)');
+      dailyChart.update();
+    }
+  }
+
+  // ── Main update ──
+  async function refresh() {
+    const stats = await fetchStats();
+    if (!stats) { updateStatus(null); return; }
+    updateStatus(stats);
+    updateHero(stats);
+    updateStats(stats);
+    updatePositions(stats);
+    updateTradesTable(stats);
+    updateDailyTable(stats);
+    updateCharts(stats);
+  }
+
+  // ── Countdown timer ──
+  let cdVal = REFRESH_INTERVAL;
+  function tickCountdown() {
+    cdVal--;
+    setEl('countdown', cdVal);
+    if (cdVal <= 0) {
+      cdVal = REFRESH_INTERVAL;
+      refresh();
+    }
+  }
+
+  // ── Boot ──
+  refresh();
+  setInterval(tickCountdown, 1000);
+</script>
+</body>
+</html>
