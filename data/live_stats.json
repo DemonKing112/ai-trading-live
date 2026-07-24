@@ -1,25 +1,25 @@
 {
   "bot_status": "running",
-  "last_updated": "2026-07-25 01:16:58",
+  "last_updated": "2026-07-25 01:18:58",
   "account": {
     "balance": 1099.08,
-    "equity": 1090.54,
-    "open_pl": -8.54
+    "equity": 1090.88,
+    "open_pl": -8.2
   },
   "today": {
-    "pnl": 30.47,
-    "trades": 3,
-    "wins": 3,
+    "pnl": 38.13,
+    "trades": 4,
+    "wins": 4,
     "losses": 0,
     "win_rate": 100.0,
     "start_balance": 1070.11
   },
   "total": {
-    "pnl": 89.1,
-    "trades": 150,
-    "wins": 86,
+    "pnl": 96.76,
+    "trades": 151,
+    "wins": 87,
     "losses": 64,
-    "win_rate": 57.3,
+    "win_rate": 57.6,
     "start_balance": 979.53,
     "start_date": "2026-07-15"
   },
@@ -31,7 +31,7 @@
       "entry": 4056.93,
       "sl": 4065.86,
       "tp": 4034.62,
-      "profit": -3.06,
+      "profit": -1.86,
       "open_time": "2026-07-25 01:16"
     },
     {
@@ -41,7 +41,7 @@
       "entry": 52071.5,
       "sl": 52185.21,
       "tp": 51784.26,
-      "profit": -5.48,
+      "profit": -6.34,
       "open_time": "2026-07-25 01:18"
     }
   ],
@@ -112,14 +112,21 @@
     },
     {
       "date": "2026-07-25",
-      "net": 30.47,
-      "trades": 3,
-      "wins": 3,
+      "net": 38.13,
+      "trades": 4,
+      "wins": 4,
       "losses": 0,
-      "balance": 1068.63
+      "balance": 1076.29
     }
   ],
   "recent_trades": [
+    {
+      "time": "2026-07-25 01:18",
+      "symbol": "DJI30SEP26",
+      "direction": "SELL",
+      "volume": 0.02,
+      "profit": 7.66
+    },
     {
       "time": "2026-07-25 01:08",
       "symbol": "GOLD.AUG26",
@@ -217,13 +224,6 @@
       "direction": "SELL",
       "volume": 0.02,
       "profit": -18.53
-    },
-    {
-      "time": "2026-07-24 13:32",
-      "symbol": "DJI30SEP26",
-      "direction": "SELL",
-      "volume": 0.04,
-      "profit": -23.44
     }
   ]
 }
