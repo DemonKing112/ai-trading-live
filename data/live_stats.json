@@ -1,10 +1,10 @@
 {
   "bot_status": "running",
-  "last_updated": "2026-07-25 00:01:57",
+  "last_updated": "2026-07-25 00:03:57",
   "account": {
-    "balance": 1070.11,
-    "equity": 1100.25,
-    "open_pl": 30.14
+    "balance": 1081.76,
+    "equity": 1107.54,
+    "open_pl": 25.78
   },
   "today": {
     "pnl": 0,
@@ -31,17 +31,17 @@
       "entry": 4069.44,
       "sl": 4061.3,
       "tp": 4047.11,
-      "profit": 12.99,
+      "profit": 13.93,
       "open_time": "2026-07-24 23:15"
     },
     {
       "symbol": "DJI30SEP26",
       "direction": "SELL",
-      "volume": 0.04,
+      "volume": 0.02,
       "entry": 52162.77,
-      "sl": 52162.77,
+      "sl": 52100.17,
       "tp": 51877.06,
-      "profit": 17.15,
+      "profit": 11.85,
       "open_time": "2026-07-24 23:31"
     }
   ],
