@@ -1,10 +1,10 @@
 {
   "bot_status": "running",
-  "last_updated": "2026-07-25 00:17:57",
+  "last_updated": "2026-07-25 00:19:57",
   "account": {
-    "balance": 1091.56,
-    "equity": 1098.6,
-    "open_pl": 7.04
+    "balance": 1099.08,
+    "equity": 1103.08,
+    "open_pl": 4.0
   },
   "today": {
     "pnl": 0,
@@ -25,24 +25,24 @@
   },
   "open_positions": [
     {
-      "symbol": "DJI30SEP26",
-      "direction": "SELL",
-      "volume": 0.02,
-      "entry": 52162.77,
-      "sl": 52084.53,
-      "tp": 51877.06,
-      "profit": 8.18,
-      "open_time": "2026-07-24 23:31"
-    },
-    {
       "symbol": "GOLD.AUG26",
       "direction": "SELL",
       "volume": 0.02,
       "entry": 4056.93,
       "sl": 4065.86,
       "tp": 4034.62,
-      "profit": -1.14,
+      "profit": 1.94,
       "open_time": "2026-07-25 01:16"
+    },
+    {
+      "symbol": "DJI30SEP26",
+      "direction": "SELL",
+      "volume": 0.04,
+      "entry": 52071.5,
+      "sl": 52185.21,
+      "tp": 51784.26,
+      "profit": 2.06,
+      "open_time": "2026-07-25 01:18"
     }
   ],
   "daily_history": [
