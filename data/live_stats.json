@@ -1,49 +1,221 @@
 {
   "bot_status": "running",
-  "last_updated": "2026-07-24 20:35:00",
+  "last_updated": "2026-07-24 21:35:54",
   "account": {
-    "balance": 1103.46,
-    "equity": 1103.46,
-    "open_pl": 0.0
+    "balance": 1103.23,
+    "equity": 1097.04,
+    "open_pl": -6.19
   },
   "today": {
-    "pnl": 11.93,
-    "trades": 17,
+    "pnl": -11.55,
+    "trades": 19,
     "wins": 11,
-    "losses": 6,
-    "win_rate": 64.7,
-    "start_balance": 1091.53
+    "losses": 8,
+    "win_rate": 57.9,
+    "start_balance": 979.53
   },
   "total": {
-    "pnl": 123.93,
-    "trades": 143,
+    "pnl": 100.45,
+    "trades": 145,
     "wins": 83,
-    "losses": 60,
-    "win_rate": 58.0,
+    "losses": 62,
+    "win_rate": 57.2,
     "start_balance": 979.53,
     "start_date": "2026-07-15"
   },
-  "open_positions": [],
+  "open_positions": [
+    {
+      "symbol": "GOLD.AUG26",
+      "direction": "BUY",
+      "volume": 0.02,
+      "entry": 4079.72,
+      "sl": 4070.71,
+      "tp": 4102.13,
+      "profit": -3.9,
+      "open_time": "2026-07-24 21:58"
+    },
+    {
+      "symbol": "DJI30SEP26",
+      "direction": "BUY",
+      "volume": 0.04,
+      "entry": 52265.32,
+      "sl": 52148.72,
+      "tp": 52551.15,
+      "profit": -2.29,
+      "open_time": "2026-07-24 22:00"
+    }
+  ],
   "daily_history": [
-    {"date": "2026-07-15", "net": 16.63, "trades": 4, "wins": 2, "losses": 2, "balance": 996.16},
-    {"date": "2026-07-16", "net": 53.57, "trades": 14, "wins": 8, "losses": 6, "balance": 1049.73},
-    {"date": "2026-07-17", "net": -56.99, "trades": 5, "wins": 1, "losses": 4, "balance": 992.74},
-    {"date": "2026-07-20", "net": 40.24, "trades": 5, "wins": 4, "losses": 1, "balance": 1032.98},
-    {"date": "2026-07-21", "net": 1.93, "trades": 19, "wins": 10, "losses": 9, "balance": 1034.91},
-    {"date": "2026-07-22", "net": -1.13, "trades": 52, "wins": 28, "losses": 24, "balance": 1033.78},
-    {"date": "2026-07-23", "net": 57.75, "trades": 27, "wins": 19, "losses": 8, "balance": 1091.53},
-    {"date": "2026-07-24", "net": 11.93, "trades": 17, "wins": 11, "losses": 6, "balance": 1103.46}
+    {
+      "date": "2026-07-15",
+      "net": 16.63,
+      "trades": 4,
+      "wins": 2,
+      "losses": 2,
+      "balance": 996.16
+    },
+    {
+      "date": "2026-07-16",
+      "net": 53.57,
+      "trades": 14,
+      "wins": 8,
+      "losses": 6,
+      "balance": 1049.73
+    },
+    {
+      "date": "2026-07-17",
+      "net": -56.99,
+      "trades": 5,
+      "wins": 1,
+      "losses": 4,
+      "balance": 992.74
+    },
+    {
+      "date": "2026-07-20",
+      "net": 40.24,
+      "trades": 5,
+      "wins": 4,
+      "losses": 1,
+      "balance": 1032.98
+    },
+    {
+      "date": "2026-07-21",
+      "net": 1.93,
+      "trades": 19,
+      "wins": 10,
+      "losses": 9,
+      "balance": 1034.91
+    },
+    {
+      "date": "2026-07-22",
+      "net": -1.13,
+      "trades": 52,
+      "wins": 28,
+      "losses": 24,
+      "balance": 1033.78
+    },
+    {
+      "date": "2026-07-23",
+      "net": 57.75,
+      "trades": 27,
+      "wins": 19,
+      "losses": 8,
+      "balance": 1091.53
+    },
+    {
+      "date": "2026-07-24",
+      "net": -11.55,
+      "trades": 19,
+      "wins": 11,
+      "losses": 8,
+      "balance": 1079.98
+    }
   ],
   "recent_trades": [
-    {"time": "2026-07-24 20:29", "symbol": "DJI30SEP26", "direction": "SELL", "volume": 0.04, "profit": -0.72},
-    {"time": "2026-07-24 19:56", "symbol": "GOLD.AUG26", "direction": "BUY", "volume": 0.02, "profit": 2.80},
-    {"time": "2026-07-24 18:12", "symbol": "DJI30SEP26", "direction": "BUY", "volume": 0.04, "profit": -0.32},
-    {"time": "2026-07-24 17:48", "symbol": "GOLD.AUG26", "direction": "SELL", "volume": 0.02, "profit": 3.15},
-    {"time": "2026-07-24 16:30", "symbol": "GOLD.AUG26", "direction": "BUY", "volume": 0.02, "profit": 1.40},
-    {"time": "2026-07-24 15:05", "symbol": "DJI30SEP26", "direction": "SELL", "volume": 0.04, "profit": 1.80},
-    {"time": "2026-07-24 13:22", "symbol": "GOLD.AUG26", "direction": "BUY", "volume": 0.02, "profit": -1.20},
-    {"time": "2026-07-24 11:45", "symbol": "DJI30SEP26", "direction": "BUY", "volume": 0.04, "profit": 2.40},
-    {"time": "2026-07-24 10:18", "symbol": "GOLD.AUG26", "direction": "SELL", "volume": 0.02, "profit": 0.90},
-    {"time": "2026-07-24 09:02", "symbol": "DJI30SEP26", "direction": "BUY", "volume": 0.04, "profit": 1.72}
+    {
+      "time": "2026-07-24 21:20",
+      "symbol": "DJI30SEP26",
+      "direction": "SELL",
+      "volume": 0.04,
+      "profit": -0.23
+    },
+    {
+      "time": "2026-07-24 21:01",
+      "symbol": "DJI30SEP26",
+      "direction": "BUY",
+      "volume": 0.04,
+      "profit": -23.25
+    },
+    {
+      "time": "2026-07-24 18:29",
+      "symbol": "GOLD.AUG26",
+      "direction": "SELL",
+      "volume": 0.02,
+      "profit": -1.77
+    },
+    {
+      "time": "2026-07-24 18:29",
+      "symbol": "DJI30SEP26",
+      "direction": "SELL",
+      "volume": 0.04,
+      "profit": -0.86
+    },
+    {
+      "time": "2026-07-24 16:57",
+      "symbol": "GOLD.AUG26",
+      "direction": "SELL",
+      "volume": 0.02,
+      "profit": -17.81
+    },
+    {
+      "time": "2026-07-24 15:39",
+      "symbol": "DJI30SEP26",
+      "direction": "SELL",
+      "volume": 0.04,
+      "profit": -23.24
+    },
+    {
+      "time": "2026-07-24 15:36",
+      "symbol": "GOLD.AUG26",
+      "direction": "BUY",
+      "volume": 0.01,
+      "profit": 6.03
+    },
+    {
+      "time": "2026-07-24 15:29",
+      "symbol": "GOLD.AUG26",
+      "direction": "BUY",
+      "volume": 0.01,
+      "profit": 8.89
+    },
+    {
+      "time": "2026-07-24 13:38",
+      "symbol": "GOLD.AUG26",
+      "direction": "SELL",
+      "volume": 0.02,
+      "profit": -18.53
+    },
+    {
+      "time": "2026-07-24 13:32",
+      "symbol": "DJI30SEP26",
+      "direction": "SELL",
+      "volume": 0.04,
+      "profit": -23.44
+    },
+    {
+      "time": "2026-07-24 13:00",
+      "symbol": "GOLD.AUG26",
+      "direction": "BUY",
+      "volume": 0.01,
+      "profit": 4.65
+    },
+    {
+      "time": "2026-07-24 12:56",
+      "symbol": "GOLD.AUG26",
+      "direction": "BUY",
+      "volume": 0.01,
+      "profit": 8.79
+    },
+    {
+      "time": "2026-07-24 10:55",
+      "symbol": "GOLD.AUG26",
+      "direction": "BUY",
+      "volume": 0.02,
+      "profit": 1.17
+    },
+    {
+      "time": "2026-07-24 09:29",
+      "symbol": "GOLD.AUG26",
+      "direction": "SELL",
+      "volume": 0.01,
+      "profit": 22.24
+    },
+    {
+      "time": "2026-07-24 09:18",
+      "symbol": "GOLD.AUG26",
+      "direction": "SELL",
+      "volume": 0.01,
+      "profit": 10.3
+    }
   ]
 }
