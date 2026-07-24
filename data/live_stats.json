@@ -1,10 +1,10 @@
 {
   "bot_status": "running",
-  "last_updated": "2026-07-25 00:15:57",
+  "last_updated": "2026-07-25 00:17:57",
   "account": {
-    "balance": 1091.65,
-    "equity": 1101.6,
-    "open_pl": 9.95
+    "balance": 1091.56,
+    "equity": 1098.6,
+    "open_pl": 7.04
   },
   "today": {
     "pnl": 0,
@@ -31,8 +31,18 @@
       "entry": 52162.77,
       "sl": 52084.53,
       "tp": 51877.06,
-      "profit": 9.95,
+      "profit": 8.18,
       "open_time": "2026-07-24 23:31"
+    },
+    {
+      "symbol": "GOLD.AUG26",
+      "direction": "SELL",
+      "volume": 0.02,
+      "entry": 4056.93,
+      "sl": 4065.86,
+      "tp": 4034.62,
+      "profit": -1.14,
+      "open_time": "2026-07-25 01:16"
     }
   ],
   "daily_history": [
