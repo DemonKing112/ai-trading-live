@@ -1,18 +1,18 @@
 {
   "bot_status": "running",
-  "last_updated": "2026-07-24 23:59:57",
+  "last_updated": "2026-07-25 00:01:57",
   "account": {
     "balance": 1070.11,
-    "equity": 1094.85,
-    "open_pl": 24.74
+    "equity": 1100.25,
+    "open_pl": 30.14
   },
   "today": {
-    "pnl": -53.37,
-    "trades": 21,
-    "wins": 11,
-    "losses": 10,
-    "win_rate": 52.4,
-    "start_balance": 1061.18
+    "pnl": 0,
+    "trades": 0,
+    "wins": 0,
+    "losses": 0,
+    "win_rate": 0.0,
+    "start_balance": 1070.11
   },
   "total": {
     "pnl": 58.63,
@@ -29,9 +29,9 @@
       "direction": "SELL",
       "volume": 0.01,
       "entry": 4069.44,
-      "sl": 4063.34,
+      "sl": 4061.3,
       "tp": 4047.11,
-      "profit": 10.99,
+      "profit": 12.99,
       "open_time": "2026-07-24 23:15"
     },
     {
@@ -39,9 +39,9 @@
       "direction": "SELL",
       "volume": 0.04,
       "entry": 52162.77,
-      "sl": 52278.72,
+      "sl": 52162.77,
       "tp": 51877.06,
-      "profit": 13.75,
+      "profit": 17.15,
       "open_time": "2026-07-24 23:31"
     }
   ],
