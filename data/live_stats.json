@@ -1,10 +1,10 @@
 {
   "bot_status": "running",
-  "last_updated": "2026-07-25 00:23:57",
+  "last_updated": "2026-07-25 00:25:57",
   "account": {
     "balance": 1099.08,
-    "equity": 1098.92,
-    "open_pl": -0.16
+    "equity": 1098.28,
+    "open_pl": -0.8
   },
   "today": {
     "pnl": 0,
@@ -31,7 +31,7 @@
       "entry": 4056.93,
       "sl": 4065.86,
       "tp": 4034.62,
-      "profit": -0.66,
+      "profit": -0.94,
       "open_time": "2026-07-25 01:16"
     },
     {
@@ -41,7 +41,7 @@
       "entry": 52071.5,
       "sl": 52185.21,
       "tp": 51784.26,
-      "profit": 0.5,
+      "profit": 0.14,
       "open_time": "2026-07-25 01:18"
     }
   ],
