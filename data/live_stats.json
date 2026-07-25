@@ -1,50 +1,29 @@
 {
   "bot_status": "running",
-  "last_updated": "2026-07-25 01:55:58",
+  "last_updated": "2026-07-25 14:37:50",
   "account": {
-    "balance": 1099.08,
-    "equity": 1092.21,
-    "open_pl": -6.87
+    "balance": 1095.04,
+    "equity": 1095.04,
+    "open_pl": 0.0
   },
   "today": {
-    "pnl": 38.13,
-    "trades": 4,
-    "wins": 4,
-    "losses": 0,
-    "win_rate": 100.0,
+    "pnl": 34.09,
+    "trades": 6,
+    "wins": 5,
+    "losses": 1,
+    "win_rate": 83.3,
     "start_balance": 1070.11
   },
   "total": {
-    "pnl": 96.76,
-    "trades": 151,
-    "wins": 87,
-    "losses": 64,
-    "win_rate": 57.6,
+    "pnl": 92.72,
+    "trades": 153,
+    "wins": 88,
+    "losses": 65,
+    "win_rate": 57.5,
     "start_balance": 979.53,
     "start_date": "2026-07-15"
   },
-  "open_positions": [
-    {
-      "symbol": "GOLD.AUG26",
-      "direction": "SELL",
-      "volume": 0.02,
-      "entry": 4056.93,
-      "sl": 4065.86,
-      "tp": 4034.62,
-      "profit": 0.06,
-      "open_time": "2026-07-25 01:16"
-    },
-    {
-      "symbol": "DJI30SEP26",
-      "direction": "SELL",
-      "volume": 0.04,
-      "entry": 52071.5,
-      "sl": 52185.21,
-      "tp": 51784.26,
-      "profit": -6.93,
-      "open_time": "2026-07-25 01:18"
-    }
-  ],
+  "open_positions": [],
   "daily_history": [
     {
       "date": "2026-07-15",
@@ -112,14 +91,28 @@
     },
     {
       "date": "2026-07-25",
-      "net": 38.13,
-      "trades": 4,
-      "wins": 4,
-      "losses": 0,
-      "balance": 1076.29
+      "net": 34.09,
+      "trades": 6,
+      "wins": 5,
+      "losses": 1,
+      "balance": 1072.25
     }
   ],
   "recent_trades": [
+    {
+      "time": "2026-07-25 02:57",
+      "symbol": "DJI30SEP26",
+      "direction": "SELL",
+      "volume": 0.04,
+      "profit": -5.19
+    },
+    {
+      "time": "2026-07-25 02:57",
+      "symbol": "GOLD.AUG26",
+      "direction": "SELL",
+      "volume": 0.02,
+      "profit": 1.15
+    },
     {
       "time": "2026-07-25 01:18",
       "symbol": "DJI30SEP26",
@@ -210,20 +203,6 @@
       "direction": "BUY",
       "volume": 0.01,
       "profit": 6.03
-    },
-    {
-      "time": "2026-07-24 15:29",
-      "symbol": "GOLD.AUG26",
-      "direction": "BUY",
-      "volume": 0.01,
-      "profit": 8.89
-    },
-    {
-      "time": "2026-07-24 13:38",
-      "symbol": "GOLD.AUG26",
-      "direction": "SELL",
-      "volume": 0.02,
-      "profit": -18.53
     }
   ]
 }
